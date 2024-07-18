@@ -19,10 +19,18 @@ export default function Main() {
 
   const loadList = async () => {
     setupNodeEnv();
-    pm2.list((error, list) => {
-      setList(error ? [] : list);
-      setIsLoading(false);
-    });
+
+    try {
+      pm2.list((error, list) => {
+        if (error) console.log("LIST ERROR", error);
+        setList(error ? [] : list);
+        setIsLoading(false);
+      });
+    } catch (error) {
+      if (error) {
+        console.log("CATCH ERROR", error);
+      }
+    }
   };
 
   useEffect(() => {
