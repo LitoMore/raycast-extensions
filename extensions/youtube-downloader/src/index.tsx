@@ -18,10 +18,11 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useForm, usePromise } from "@raycast/utils";
 import nanoSpawn from "nano-spawn";
-import { DownloadOptions, isValidHHMM, isYouTubeURL, parseHHMM, preferences } from "./utils.js";
+import { DownloadOptions, isValidHHMM, isValidUrl, parseHHMM, preferences } from "./utils.js";
 
 export default function DownloadVideo() {
   const [error, setError] = useState(0);
+  const [warning, setWarning] = useState("");
 
   const { handleSubmit, values, itemProps, setValue, setValidationError } = useForm<DownloadOptions>({
     initialValues: {
@@ -80,8 +81,14 @@ export default function DownloadVideo() {
         const line = data.toString();
         console.error(line);
 
-        toast.title = "Download Failed";
-        toast.style = Toast.Style.Failure;
+        if (line.startsWith("WARNING:")) {
+          setWarning(line);
+        }
+
+        if (line.startsWith("ERROR:")) {
+          toast.title = "Download Failed";
+          toast.style = Toast.Style.Failure;
+        }
         toast.message = line;
       });
 
@@ -118,7 +125,7 @@ export default function DownloadVideo() {
         if (!value) {
           return "URL is required";
         }
-        if (!isYouTubeURL(value)) {
+        if (!isValidUrl(value)) {
           return "Invalid URL";
         }
       },
@@ -145,7 +152,7 @@ export default function DownloadVideo() {
   const { data: video, isLoading } = usePromise(
     async (url) => {
       if (!url) return;
-      if (!isYouTubeURL(url)) return;
+      if (!isValidUrl(url)) return;
 
       const result = await nanoSpawn(preferences.ytdlPath, ["-j", url]);
       return JSON.parse(result.stdout) as {
@@ -177,7 +184,7 @@ export default function DownloadVideo() {
 
   useEffect(() => {
     if (video) {
-      if (video.live_status !== "not_live") {
+      if (video.live_status !== "not_live" && video.live_status !== undefined) {
         setValidationError("url", "Live streams are not supported");
       }
     }
@@ -186,14 +193,14 @@ export default function DownloadVideo() {
   useEffect(() => {
     (async () => {
       const clipboardText = await Clipboard.readText();
-      if (clipboardText && isYouTubeURL(clipboardText)) {
+      if (clipboardText && isValidUrl(clipboardText)) {
         setValue("url", clipboardText);
         return;
       }
 
       try {
         const selectedText = await getSelectedText();
-        if (selectedText && isYouTubeURL(selectedText)) {
+        if (selectedText && isValidUrl(selectedText)) {
           setValue("url", selectedText);
           return;
         }
@@ -203,7 +210,7 @@ export default function DownloadVideo() {
 
       try {
         const tabUrl = (await BrowserExtension.getTabs()).find((tab) => tab.active)?.url;
-        if (tabUrl && isYouTubeURL(tabUrl)) setValue("url", tabUrl);
+        if (tabUrl && isValidUrl(tabUrl)) setValue("url", tabUrl);
       } catch {
         // Suppress the error if Raycast didn't find browser extension
       }
@@ -236,10 +243,17 @@ export default function DownloadVideo() {
             icon={Icon.Download}
             title="Download Video"
             onSubmit={(values) => {
+              setWarning("");
               handleSubmit({ ...values, copyToClipboard: false } as DownloadOptions);
             }}
           />
         </ActionPanel>
+      }
+      searchBarAccessory={
+        <Form.LinkAccessory
+          text="Supported Sites"
+          target="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
+        />
       }
     >
       <Form.Description title="Title" text={video?.title ?? "Video not found"} />
@@ -249,6 +263,7 @@ export default function DownloadVideo() {
         placeholder="https://www.youtube.com/watch?v=xRMPKQweySE"
         {...itemProps.url}
       />
+      {warning && <Form.Description text={warning} />}
       {/*<Form.Separator />*/}
       {/*<Form.TextField*/}
       {/*  info="Optional. Specify when the output video should start. Follow the format HH:MM:SS or MM:SS."*/}

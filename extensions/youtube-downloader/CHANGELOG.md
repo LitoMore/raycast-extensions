@@ -1,5 +1,16 @@
 # YouTube Downloader Changelog
 
+## [Enhancements] - {PR_MERGE_DATE}
+
+- Unlock its full ability from all sites
+- Move the warning message to the form description
+- Only show download failed message on errors
+- Fix live video condition
+- Add a link accessory to the form view to show the supported sites
+- Mention the `yt-dlp` in readme
+- Mention supported sites in readme
+- Comment `Can I download clips from YouTube` out since we don't support it yet
+
 ## [Improve Error Message] - 2025-02-04
 
 - Improve error message
