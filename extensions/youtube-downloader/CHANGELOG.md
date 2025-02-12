@@ -12,6 +12,10 @@
 - Comment `Can I download clips from YouTube` out since we don't support it yet
 - Update screenshots since the format selector is not ready yet
 
+## [Fixes] - 2025-02-12
+
+- Add a preference option for toggling Browser Extension support
+
 ## [Improve Error Message] - 2025-02-04
 
 - Improve error message

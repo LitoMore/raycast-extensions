@@ -209,6 +209,7 @@ export default function DownloadVideo() {
       }
 
       try {
+        if (!preferences.enableBrowserExtensionSupport) return;
         const tabUrl = (await BrowserExtension.getTabs()).find((tab) => tab.active)?.url;
         if (tabUrl && isValidUrl(tabUrl)) setValue("url", tabUrl);
       } catch {
