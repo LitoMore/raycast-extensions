@@ -12,7 +12,7 @@ First, you need to find the source code of the extension. The easiest way to do 
 
 ![Fork an extension](../.gitbook/assets/fork-extension.webp)
 
-Or you can use the [Forked Extensions](https://raycast.com/litomore/forked-extension) to forked extensions in a easy way. It can [git-sparse-checkout](https://git-scm.com/docs/git-sparse-checkout) only download the extension you want to work on. So that you don't have to clone the full repository.
+Or you can use the [Forked Extensions](https://raycast.com/litomore/forked-extensions) to fork extensions in an easy way. It can [git-sparse-checkout](https://git-scm.com/docs/git-sparse-checkout) only download the extension you want to work on. So that you don't have to clone the full repository.
 
 <p align="center"><img alt="Install Forked Extensions extension" height="64" src="https://www.raycast.com/litomore/forked-extensions/install_button@2x.png?v=1.1" /></p>
 
