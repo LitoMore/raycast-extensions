@@ -1,5 +1,10 @@
 # Brand Icons Changelog
 
+## [Routine Maintenance] - {PR_MERGE_DATE}
+
+- Fix useEffect dependencies
+- Bump all dependencies to the latest
+
 ## [Improvements] - 2025-08-12
 
 - Add support for creating social badges through cross-extension
