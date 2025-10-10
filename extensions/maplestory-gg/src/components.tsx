@@ -124,27 +124,26 @@ export const CharacterDetail = ({
     setTotalExpChart(totalExpChart);
   };
 
-  const loadLatestCharacterData = async () => {
-    if (!checkLatest) return;
-    const toast = await showToast({
-      style: Toast.Style.Animated,
-      title: "",
-      message: "Loading latest character data...",
-    });
-    try {
-      const characterData = await lookupCharacter(character.Region, character.Name);
-      setCharacter(characterData);
-      saveCharacterToFavorites(characterData);
-    } catch {
-      // Handle error gracefully
-    } finally {
-      toast.hide();
-    }
-  };
-
   useEffect(() => {
+    const loadLatestCharacterData = async () => {
+      if (!checkLatest) return;
+      const toast = await showToast({
+        style: Toast.Style.Animated,
+        title: "",
+        message: "Loading latest character data...",
+      });
+      try {
+        const characterData = await lookupCharacter(character.Region, character.Name);
+        setCharacter(characterData);
+        saveCharacterToFavorites(characterData);
+      } catch {
+        // Handle error gracefully
+      } finally {
+        toast.hide();
+      }
+    };
     loadLatestCharacterData();
-  }, []);
+  }, [character.Region, character.Name, checkLatest]);
 
   useEffect(() => {
     loadCharts(character);
