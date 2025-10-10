@@ -1,5 +1,11 @@
 # MapleStory.gg
 
+## [Routine Maintenance] - {PR_MERGE_DATE}
+
+- Add support for Windows
+- Fix useEffect dependencies
+- Bump all dependencies to the latest
+
 ## [Routine Maintenance] - 2025-09-01
 
 - Handle HTTP request errors gracefully
