@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Action,
   ActionPanel,
@@ -7,6 +8,7 @@ import {
   getPreferenceValues,
   Grid,
   Icon,
+  List,
   Keyboard,
   launchCommand,
   LaunchType,
@@ -25,9 +27,81 @@ const preferences: Preferences.OrganizeColors = getPreferenceValues();
 export default function Command() {
   const { history } = useHistory();
   const { selection } = useColorsSelection(history);
+  const [selectMode, setSelectMode] = useState<string>("single");
+
+  if (selectMode === "multi") {
+    return (
+      <List
+        searchBarAccessory={
+          <Grid.Dropdown storeValue tooltip="Switch Select Mode" onChange={setSelectMode}>
+            <Grid.Dropdown.Item title="Single-Select Mode" value="single" />
+            <Grid.Dropdown.Item title="Multi-Select Mode" value="multi" />
+          </Grid.Dropdown>
+        }
+      >
+        <List.EmptyView
+          icon={Icon.EyeDropper}
+          title="No colors picked yet ¯\_(ツ)_/¯"
+          description="Use the Pick Color command to pick some"
+          actions={
+            <ActionPanel>
+              <Action
+                icon={Icon.EyeDropper}
+                title="Pick Color"
+                onAction={async () => {
+                  try {
+                    await launchCommand({
+                      name: "pick-color",
+                      type: LaunchType.Background,
+                      context: { source: "organize-colors" },
+                    });
+                  } catch (e) {
+                    await showFailureToast(e);
+                    return e;
+                  }
+                }}
+              />
+            </ActionPanel>
+          }
+        />
+        {history?.map((historyItem) => {
+          if (!historyItem) {
+            return null;
+          }
+
+          const formattedColor = getFormattedColor(historyItem.color);
+          const previewColor = getPreviewColor(historyItem.color);
+          const isSelected = selection.helpers.getIsItemSelected(historyItem);
+
+          return (
+            <List.Item
+              key={formattedColor}
+              icon={{
+                source: Icon.CircleFilled,
+                tintColor: { light: previewColor, dark: previewColor, adjustContrast: false },
+              }}
+              title={`${isSelected ? "✓ " : ""}${formattedColor} ${historyItem.title ?? ""}`}
+              subtitle={new Date(historyItem.date).toLocaleString(undefined, {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+              actions={<Actions item={historyItem} selection={selection} />}
+            />
+          );
+        })}
+      </List>
+    );
+  }
 
   return (
-    <Grid>
+    <Grid
+      searchBarAccessory={
+        <Grid.Dropdown storeValue tooltip="Switch Select Mode" onChange={setSelectMode}>
+          <Grid.Dropdown.Item title="Single-Select Mode" value="single" />
+          <Grid.Dropdown.Item title="Multi-Select Mode" value="multi" />
+        </Grid.Dropdown>
+      }
+    >
       <Grid.EmptyView
         icon={Icon.EyeDropper}
         title="No colors picked yet ¯\_(ツ)_/¯"
