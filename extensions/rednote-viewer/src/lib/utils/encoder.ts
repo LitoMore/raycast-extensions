@@ -21,22 +21,10 @@ export class Base64Encoder {
   private readonly x3DecodeTable: Map<string, string>;
 
   constructor(private readonly config: CryptoConfig) {
-    this.customEncodeTable = buildTranslateTable(
-      config.STANDARD_BASE64_ALPHABET,
-      config.CUSTOM_BASE64_ALPHABET,
-    );
-    this.customDecodeTable = buildTranslateTable(
-      config.CUSTOM_BASE64_ALPHABET,
-      config.STANDARD_BASE64_ALPHABET,
-    );
-    this.x3EncodeTable = buildTranslateTable(
-      config.STANDARD_BASE64_ALPHABET,
-      config.X3_BASE64_ALPHABET,
-    );
-    this.x3DecodeTable = buildTranslateTable(
-      config.X3_BASE64_ALPHABET,
-      config.STANDARD_BASE64_ALPHABET,
-    );
+    this.customEncodeTable = buildTranslateTable(config.STANDARD_BASE64_ALPHABET, config.CUSTOM_BASE64_ALPHABET);
+    this.customDecodeTable = buildTranslateTable(config.CUSTOM_BASE64_ALPHABET, config.STANDARD_BASE64_ALPHABET);
+    this.x3EncodeTable = buildTranslateTable(config.STANDARD_BASE64_ALPHABET, config.X3_BASE64_ALPHABET);
+    this.x3DecodeTable = buildTranslateTable(config.X3_BASE64_ALPHABET, config.STANDARD_BASE64_ALPHABET);
   }
 
   private toBuffer(data: Encodable): Buffer {

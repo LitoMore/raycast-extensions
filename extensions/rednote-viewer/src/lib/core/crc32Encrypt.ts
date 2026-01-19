@@ -1,8 +1,4 @@
-export type DataLike =
-  | string
-  | ArrayBuffer
-  | ArrayBufferView
-  | Iterable<number>;
+export type DataLike = string | ArrayBuffer | ArrayBufferView | Iterable<number>;
 
 export class CRC32 {
   private static readonly MASK32 = 0xffffffff;
@@ -16,7 +12,7 @@ export class CRC32 {
     for (let d = 0; d < 256; d += 1) {
       let r = d;
       for (let i = 0; i < 8; i += 1) {
-        r = (r & 1) !== 0 ? ((r >>> 1) ^ this.POLY) : (r >>> 1);
+        r = (r & 1) !== 0 ? (r >>> 1) ^ this.POLY : r >>> 1;
         r >>>= 0;
       }
       tbl[d] = r >>> 0;
@@ -56,14 +52,11 @@ export class CRC32 {
     return (u & 0x80000000) !== 0 ? u - 0x100000000 : u;
   }
 
-  static crc32JsInt(
-    data: DataLike,
-    opts: { stringMode?: "js" | "utf8"; signed?: boolean } = {},
-  ): number {
+  static crc32JsInt(data: DataLike, opts: { stringMode?: "js" | "utf8"; signed?: boolean } = {}): number {
     const { stringMode = "js", signed = true } = opts;
     const c = this.crc32Core(data, stringMode);
     const a = this.POLY;
-    const u = ((this.MASK32 ^ c) ^ a) >>> 0;
+    const u = (this.MASK32 ^ c ^ a) >>> 0;
     return signed ? this.toSigned32(u) : u >>> 0;
   }
 }

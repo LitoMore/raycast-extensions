@@ -219,8 +219,7 @@ export class RandomGenerator {
 
   generateXrayTraceId(timestamp?: number, seq?: number): string {
     const ts = typeof timestamp === "number" ? timestamp : Date.now();
-    const sequence =
-      typeof seq === "number" ? seq : this.rng.randIntInclusive(0, this.config.XRAY_TRACE_ID_SEQ_MAX);
+    const sequence = typeof seq === "number" ? seq : this.rng.randIntInclusive(0, this.config.XRAY_TRACE_ID_SEQ_MAX);
 
     const part1 = ((BigInt(ts) << BigInt(this.config.XRAY_TRACE_ID_TIMESTAMP_SHIFT)) | BigInt(sequence))
       .toString(16)

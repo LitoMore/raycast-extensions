@@ -26,7 +26,10 @@ export function choiceWithWeights<T>(options: T[], weights: number[]): T {
 }
 
 export function getRendererInfo(): [string, string] {
-  const rendererStr = weightedRandomChoice(GPU_VENDORS, GPU_VENDORS.map(() => 1));
+  const rendererStr = weightedRandomChoice(
+    GPU_VENDORS,
+    GPU_VENDORS.map(() => 1),
+  );
   const [vendor, renderer] = rendererStr.split("|");
   return [vendor ?? "", renderer ?? ""];
 }
