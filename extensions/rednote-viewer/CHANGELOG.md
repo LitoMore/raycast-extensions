@@ -1,5 +1,9 @@
 # RedNote Post Viewer Changelog
 
+## [Maintenance] - {PR_MERGE_DATE}
+
+- Bump all dependencies to the latest
+
 ## [Initial Version] - 2025-09-04
 
 - View RedNote posts in grid view
