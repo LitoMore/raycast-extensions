@@ -1,6 +1,6 @@
 # RedNote Post Viewer Changelog
 
-## [Maintenance] - {PR_MERGE_DATE}
+## [Maintenance] - 2026-01-19
 
 - Bump all dependencies to the latest
 
