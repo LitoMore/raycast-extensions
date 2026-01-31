@@ -1,5 +1,10 @@
 # Brand Icons Changelog
 
+## [Enhancement] - {PR_MERGE_DATE}
+
+- Add support for changing copy action to paste
+- Bump all dependencies to the latest
+
 ## [New Feature] - 2025-12-07
 
 - Add support for shuffling icons on start
