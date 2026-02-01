@@ -1,6 +1,6 @@
 # Brand Icons Changelog
 
-## [Enhancement] - {PR_MERGE_DATE}
+## [Enhancement] - 2026-02-01
 
 - Add support for changing copy action to paste
 - Bump all dependencies to the latest
