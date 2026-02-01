@@ -1,6 +1,6 @@
 # United Nations Extension
 
-## [Maintenance] - {PR_MERGE_DATE}
+## [Maintenance] - 2026-02-01
 
 - Resolve CVE-2026-25128
 - Bump all dependencies to the latest
