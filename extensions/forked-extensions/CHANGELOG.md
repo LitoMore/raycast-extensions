@@ -1,5 +1,10 @@
 # Raycast Fork Extensions Changelog
 
+## [Maintenance] - {PR_MERGE_DATE}
+
+- Bump nano-spawn@2.0.0
+- Bump all dependencies to the latest
+
 ## [Improvements] - 2026-01-19
 
 - Add support for managing sparse-checkout directories/patterns
